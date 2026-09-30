@@ -2,7 +2,7 @@
 //  NetworkError.swift
 //  iOSBaseProject
 //
-//  Created by Rahul Kiumar on 30/09/26.
+//  Created by Pradyumna Rout on 30/09/26.
 //
 
 import Foundation
@@ -11,6 +11,7 @@ enum NetworkError: Error, LocalizedError {
     case invalidUrl
     case noInternet
     case decodingFailed
+    case encodingFailed
     case invalidResponse
     case requestTimeout
     
@@ -37,6 +38,8 @@ enum NetworkError: Error, LocalizedError {
             return "No internet connection available. Please check your network connection."
         case .decodingFailed:
             return "Failed to decode the response data from the server."
+        case .encodingFailed:
+            return "Failed to encode swift models/objects to data."
         case .invalidResponse:
             return "Received an invalid response from the server."
         case .requestTimeout:

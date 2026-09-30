@@ -35,7 +35,7 @@ enum ProductRouter: RouterProtocol {
         }
     }
     
-    var header: [String : String]? {
+    var headers: [String : String]? {
         [
             "Content-Type" : "application/json"
         ]
@@ -59,12 +59,12 @@ enum ProductRouter: RouterProtocol {
         get throws {
             switch self {
             // Example usage when adding a case with Encodable payload:
-            // case .createProduct(let product):
-            //     do {
-            //         return try JSONEncoder().encode(product)
-            //     } catch {
-            //         throw NetworkError.decodingFailed
-            //     }
+//             case .createProduct(let product):
+//                 do {
+//                     return try JSONEncoder().encode(product)
+//                 } catch {
+//                     throw NetworkError.encodingFailed
+//                 }
             default:
                 return nil
             }
@@ -73,7 +73,18 @@ enum ProductRouter: RouterProtocol {
     
     var bodyDataSerializable: Data? {
         get throws {
-            return nil
+            guard let parameters else { return nil}
+
+            switch self {
+            case .products(let int, let int2):
+                do {
+                    return try JSONSerialization.data(withJSONObject: parameters)
+                } catch {
+                    throw NetworkError.encodingFailed
+                }
+//            default:
+//                return nil
+            }
         }
     }
     
