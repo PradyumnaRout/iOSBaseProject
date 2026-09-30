@@ -29,6 +29,7 @@ enum NetworkError: Error, LocalizedError {
     case badGateway(statusCode: Int)
     case serviceUnavailable(statusCode: Int)
     case gatewayTimeout(statusCode: Int)
+    case others(String)
     
     var errorDescription: String? {
         switch self {
@@ -70,6 +71,8 @@ enum NetworkError: Error, LocalizedError {
             return "Service unavailable. (Status code: \(statusCode))"
         case .gatewayTimeout(let statusCode):
             return "Gateway timeout. (Status code: \(statusCode))"
+        case .others(let message):
+            return message
         }
     }
     
@@ -88,6 +91,28 @@ enum NetworkError: Error, LocalizedError {
         case 503: return .serviceUnavailable(statusCode: statusCode)
         case 504: return .gatewayTimeout(statusCode: statusCode)
         default: return .invalidResponse
+        }
+    }
+    
+    /// Centralized mapping of general Swift errors into `NetworkError` cases.
+    static func mapError(_ error: Error) -> NetworkError {
+        if let networkError = error as? NetworkError {
+            return networkError
+        } else if let urlError = error as? URLError {
+            switch urlError.code {
+            case .notConnectedToInternet, .networkConnectionLost:
+                return .noInternet
+            case .timedOut:
+                return .requestTimeout
+            default:
+                return .others(urlError.localizedDescription)
+            }
+        } else if error is DecodingError {
+            return .decodingFailed
+        } else if error is EncodingError {
+            return .encodingFailed
+        } else {
+            return .others(error.localizedDescription)
         }
     }
 }

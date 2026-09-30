@@ -2,7 +2,7 @@
 //  AppError.swift
 //  iOSBaseProject
 //
-//  Created by Pradyumna Rout on 30/09/26.
+//  Created by Rahul Kiumar on 30/09/26.
 //
 
 import Foundation
@@ -23,37 +23,36 @@ enum AppError: Error, LocalizedError {
         }
     }
     
-    // MARK: - Factory Throw Methods
+    // MARK: - Factory & Mapping Helpers
     
-    /// Throws a network error wrapped in `AppError.network`.
-    static func throwNetworkError(_ error: NetworkError) throws -> Never {
-        throw AppError.network(error)
-    }
-    
-    /// Throws a network error constructed from an HTTP status code wrapped in `AppError.network`.
-    static func throwNetworkError(statusCode: Int) throws -> Never {
+    /// Maps an HTTP status code to an `AppError.network`.
+    static func from(statusCode: Int) -> AppError {
         let networkError = NetworkError.from(statusCode: statusCode)
-        throw AppError.network(networkError)
+        return .network(networkError)
     }
     
-    /// Throws a repository error wrapped in `AppError.repository`.
-    static func throwRepositoryError(_ error: RepositoryError) throws -> Never {
-        throw AppError.repository(error)
+    /// Maps a `NetworkError` to an `AppError.network`.
+    static func from(_ networkError: NetworkError) -> AppError {
+        return .network(networkError)
     }
     
-    /// Converts any `Error` (with an optional status code) and throws the corresponding `AppError`.
-    static func throwError(_ error: Error, statusCode: Int? = nil) throws -> Never {
+    /// Maps a `RepositoryError` to an `AppError.repository`.
+    static func from(_ repositoryError: RepositoryError) -> AppError {
+        return .repository(repositoryError)
+    }
+    
+    /// Maps any `Error` (with an optional status code) to the corresponding `AppError`.
+    static func from(_ error: Error, statusCode: Int? = nil) -> AppError {
         if let appError = error as? AppError {
-            throw appError
+            return appError
         } else if let networkError = error as? NetworkError {
-            throw AppError.network(networkError)
+            return .network(networkError)
         } else if let repositoryError = error as? RepositoryError {
-            throw AppError.repository(repositoryError)
+            return .repository(repositoryError)
         } else if let statusCode = statusCode {
-            let networkError = NetworkError.from(statusCode: statusCode)
-            throw AppError.network(networkError)
+            return from(statusCode: statusCode)
         } else {
-            throw AppError.unknown(error)
+            return .unknown(error)
         }
     }
 }
