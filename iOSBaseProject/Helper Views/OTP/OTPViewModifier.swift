@@ -28,3 +28,32 @@ struct OTPModifier: ViewModifier {
             .clipShape(Circle())
     }
 }
+
+
+
+/*
+ struct ContentView: View {
+
+     @State private var showExporter = false
+
+     var body: some View {
+         Button("Save File") {
+             showExporter = true
+         }
+         .fileExporter(
+             isPresented: $showExporter,
+             document: MyDocument(),
+             contentType: .text,
+             defaultFilename: "MyFile"
+         ) { result in
+             switch result {
+             case .success(let url):
+                 print("Saved at:", url)
+
+             case .failure(let error):
+                 print("Save failed:", error)
+             }
+         }
+     }
+ }
+ */
