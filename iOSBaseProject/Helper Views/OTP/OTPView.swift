@@ -57,7 +57,7 @@ struct OTPView: View {
         VStack {
             otpContent
         }
-        .padding(20)
+//        .padding(20)
         .onChange(of: otp) { _, newOTP in
             syncDigitsFromOTP(newOTP)
         }
@@ -91,8 +91,13 @@ struct OTPView: View {
             OTPTextField(text: $digits[index]) { _ in
                 focusPrev(from: index)
             }
+            .foregroundStyle(.white)
+            .font(.system(size: 20, weight: .semibold))
+            .tint(Color(hex: "#4EDEA3"))
         } else {
             TextField("", text: $digits[index])
+                .foregroundStyle(.white)
+                .font(.system(size: 20, weight: .semibold))
                 .textFieldStyle(.plain)
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)

@@ -29,6 +29,12 @@ struct OTPTextField: UIViewRepresentable {
         textField.keyboardType = .numberPad
         textField.textContentType = .oneTimeCode
         textField.textAlignment = .center
+        
+        // Set colors & font directly in UIKit:
+        textField.textColor = .white
+        textField.font = .systemFont(ofSize: 20, weight: .semibold)
+        textField.tintColor = UIColor(red: 0x4E/255.0, green: 0xDE/255.0, blue: 0xA3/255.0, alpha: 1.0)
+        
         textField.delegate = context.coordinator
         textField.addTarget(
             context.coordinator,

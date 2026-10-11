@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct iOSBaseProjectApp: App {
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self)
+    var appDelegate
+
     var body: some Scene {
         WindowGroup {
-            ProductListView()
+            AppRoot()
+                .environment(AppEntryModel(entryType: .auth))
         }
     }
 }
