@@ -15,6 +15,7 @@ enum AppEntry {
 
 /// Protocol defining the contract for different user roles (e.g. Guest vs Registered).
 protocol UserTypeProtocol {
+    var id: UUID { get }
     var userRole: String { get }
     var tabs: [TabItem] { get }
 }
@@ -79,7 +80,7 @@ struct DashboardView: View {
 @Observable
 final class DashboardViewModel {
     init() {
-        print("Dashboard viewmodel Init called!")
+        print("Dashboard Init called!")
     }
     
     func pushToDetail(using router: Router) {
@@ -183,11 +184,18 @@ struct ProfileView: View {
             }
             
             Button("Guest") {
-                type.entryType = .user(UserRegistery.shared.getCurrentUser(type: "Guest") ?? GuestUser())
+                type.switchToGuestUser()
+                if let currentUser = type.currentUser(), ((currentUser as? GuestUser) != nil) {
+                    print("====== Guest User ======")
+                }
             }
             
             Button("Registered User") {
-                type.entryType = .user(UserRegistery.shared.getCurrentUser(type: "Registered") ?? GuestUser())
+                type.switchToActualUser()
+                
+                if let currentUser = type.currentUser(), ((currentUser as? RegisteredUser) != nil) {
+                    print("====== Registered User ======")
+                }
             }
         }
         .navigationTitle("Profile")

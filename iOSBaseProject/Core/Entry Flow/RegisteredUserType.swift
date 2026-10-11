@@ -5,10 +5,12 @@
 //  Created by hb on 08/10/26.
 //
 
+
 import SwiftUI
 
 /// Tab configuration for Registered Users.
 struct RegisteredUser: UserTypeProtocol {
+    let id = UUID()
 
     var userRole: String {
         "Registered"

@@ -16,6 +16,7 @@ struct AppRoot: View {
             SignInView()
         case .user(let userConf):
             MainTabView(tabs: userConf.tabs)
+                .id(userConf.id)
         }
     }
 }

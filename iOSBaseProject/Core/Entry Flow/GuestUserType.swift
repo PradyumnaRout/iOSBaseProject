@@ -9,6 +9,7 @@ import SwiftUI
 
 /// Tab configuration for Guest Users.
 struct GuestUser: UserTypeProtocol {
+    let id = UUID()
 
     var userRole: String {
         "Guest"
