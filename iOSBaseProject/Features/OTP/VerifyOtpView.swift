@@ -45,6 +45,7 @@ struct VerifyOtpView: View {
                 if newPhase == .active { updateRemaining(animated: false) }
             }
         }
+        .logScreen("VerifyOtpView")
         //.ignoresSafeArea(.keyboard)
     }
     

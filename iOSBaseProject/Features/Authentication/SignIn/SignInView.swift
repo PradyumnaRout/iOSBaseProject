@@ -46,6 +46,7 @@ struct SignInView: View {
             .scrollIndicators(.hidden)
             .scrollBounceBehavior(.basedOnSize)
             .scrollDismissesKeyboard(.interactively)
+            .logScreen("SignInView")
             .navigationDestination(for: String.self) { value in
                 switch value {
                 case "signUp":

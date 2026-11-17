@@ -37,6 +37,7 @@ struct SignupView: View {
         .scrollIndicators(.hidden)
         .scrollBounceBehavior(.basedOnSize)
         .scrollDismissesKeyboard(.interactively)
+        .logScreen("SignUpView")
     }
     
     private var actionButton: some View {
